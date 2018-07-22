@@ -3,4 +3,4 @@ project(Matrixcalc)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(Matrixcalc main.cpp Source/Matrix.cpp Source/Matrix.h)
+add_executable(Matrixcalc main.cpp Source/Matrix.cpp Source/Matrix.h source/Vector.cpp source/Vector.h)
