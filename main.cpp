@@ -24,7 +24,6 @@ int main() {
 
     if(C != nullptr)
         write(C->toString());
-    cout << "Schonn";
     system("pause");
     delete(A);
     delete(B);
