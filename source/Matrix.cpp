@@ -172,5 +172,10 @@ void Matrix::setValue(int y, int x, int value)
     (allRows.at(y)).at(x) = value;
 }
 
+void Matrix::gaussAlgorithm() {
+
+	
+}
+
 Matrix::~Matrix() = default;
 

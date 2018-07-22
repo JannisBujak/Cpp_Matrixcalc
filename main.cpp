@@ -20,13 +20,12 @@ int main() {
     Matrix* B = new Matrix("MatrixB");
     //B->print();
 
-    Matrix * C = A->multiplyWith(B);
+    A->gaussAlgorithm();
+    A->print();
 
-    if(C != nullptr)
-        write(C->toString());
-    system("pause");
+    //system("pause");
+
     delete(A);
     delete(B);
-    delete(C);
     return 0;
 }

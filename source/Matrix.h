@@ -28,8 +28,9 @@ public:
 
     explicit Matrix(string name);
     ~Matrix();
-
     explicit Matrix(string name, int xSize, int ySize);
+
+	void gaussAlgorithm();
     void setValue(int y, int x, int value);
     const string &getName() const;
 
