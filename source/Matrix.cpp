@@ -14,7 +14,7 @@ Matrix::Matrix(string name)
 
     for(string row : columns)
     {
-        vector<int> line = stringToIntVector(row);
+        vector<double > line = stringToIntVector(row);
 
         this->allRows.push_back(line);
     }
@@ -48,10 +48,10 @@ vector<string> Matrix::textToVectorList(string filename) {
     }
 }
 
-std::vector<int> Matrix::stringToIntVector(string s) {
-    vector<int> v;
+vector<double> Matrix::stringToIntVector(string s) {
+    vector<double > v;
     string::size_type sz;
-    int ints = 0;
+    double ints = 0;
 
     for(int i = 0; i < s.length(); i++)
     {
@@ -78,7 +78,7 @@ std::vector<int> Matrix::stringToIntVector(string s) {
 void Matrix::calcSize() {
     ySize = allRows.size();
     int maxXSize = 0;
-    for(vector<int> v : allRows){
+    for(vector<double > v : allRows){
         if(v.size() > maxXSize)
             maxXSize = v.size();
     }
@@ -95,14 +95,14 @@ void Matrix::fillRows() {
 
 void Matrix::print()
 {
+    this->calcSize();
     cout << name << " (" << xSize << "x" << ySize << "):" << endl;
     for(int y = 0; y < ySize; y++){
         for(int x = 0; x < xSize; x++){
-            int valueHere = this->allRows[y][x];
-            cout << valueHere;
-            for(int i =((string)to_string(valueHere)).length(); i < 4; i++){
-                cout << " ";
-            }
+            double valueHere = this->allRows[y][x];
+            //cout << valueHere;
+            printf("%3.1f ", valueHere);
+            //for(int i =((string)to_string(valueHere)).length(); i < 4; i++)              cout << " ";
         }
         cout << endl;
     }
@@ -131,7 +131,7 @@ Matrix::Matrix(string name, int xSize, int ySize) {
     this->name = name;
     allRows.resize(((unsigned int)(ySize)));
     for(int i = 0; i < allRows.size(); i++){
-        std::vector<int > v;
+        std::vector<double > v;
         v.resize((unsigned int)xSize);
         allRows[i] = v;
     }
@@ -172,9 +172,44 @@ void Matrix::setValue(int y, int x, int value)
     (allRows.at(y)).at(x) = value;
 }
 
-void Matrix::gaussAlgorithm() {
+void Matrix::gaussAlgorithm(int row) {
+    if(row == ySize || inDiagonalForm() == -1) return;
+    for(int y = row + 1; y < ySize; y++){
 
-	
+        double multiplicator = allRows[y][row] / allRows[row][row];
+        allRows.at(y).at(row) = 0;
+        cout << multiplicator << endl;
+        for(int x = row + 1; x < xSize; x++){
+            allRows.at(y).at(x) = allRows[y][x] - multiplicator * allRows[row][x];
+        }
+    }
+
+    gaussAlgorithm(row + 1);
+
+}
+
+double Matrix::calculateDeterminant() {
+    if(xSize != ySize){
+        cout << "Determinant has to be n x n - Matrix!" << endl;
+        return -1;
+    }
+    if(!inDiagonalForm())
+        gaussAlgorithm(0);
+    double determinant = 1;
+    for(int i = 0; i < xSize; i++){
+        determinant *= allRows[i][i];
+    }
+    return determinant;
+}
+
+bool Matrix::inDiagonalForm() {
+    for(int y = 0; y < ySize; y++){
+        for(int x = 0; x < y; x++) {
+            if(allRows[y][x] != 0)
+                return false;
+        }
+    }
+    return true;
 }
 
 Matrix::~Matrix() = default;

@@ -18,10 +18,10 @@ private:
     int xSize;
     int ySize;
     void calcSize();
-    std::vector < std::vector < int > > allRows;
+    std::vector < std::vector < double > > allRows;
 
     vector<string> textToVectorList(string filename);
-    std::vector<int> stringToIntVector(string s);
+    std::vector< double > stringToIntVector(string s);
     void fillRows();
 
 public:
@@ -30,12 +30,15 @@ public:
     ~Matrix();
     explicit Matrix(string name, int xSize, int ySize);
 
-	void gaussAlgorithm();
+	void gaussAlgorithm(int row);
+	double calculateDeterminant();
     void setValue(int y, int x, int value);
     const string &getName() const;
 
     int getXSize();
     int getYSize() const;
+
+	bool inDiagonalForm();
 
     void print();
     string toString();

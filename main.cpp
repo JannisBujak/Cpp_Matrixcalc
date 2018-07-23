@@ -19,9 +19,10 @@ int main() {
 
     Matrix* B = new Matrix("MatrixB");
     //B->print();
-
-    A->gaussAlgorithm();
-    A->print();
+    B->print();
+    B->gaussAlgorithm(0);
+    B->print();
+    printf("%5.1f\n", B->calculateDeterminant());
 
     //system("pause");
 
