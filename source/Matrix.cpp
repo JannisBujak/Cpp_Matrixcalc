@@ -5,7 +5,8 @@
 #include <vector>
 #include <sstream> //stringstream
 #include <iomanip>//setprecision
-#include "math.h"
+#include <cmath>
+
 using namespace std;
 
 
