@@ -2,6 +2,7 @@
 
 #include "Matrix.h"
 #include "fstream"
+#include <utility>
 #include <vector>
 #include <sstream> //stringstream
 #include <iomanip>//setprecision
@@ -40,7 +41,7 @@ vector<string> Matrix::textToVectorList(string filename) {
             while(reader.good())
             {
                 getline(reader, line);
-                if(line == "")
+                if(line.empty())
                     break;
                 text.push_back(line);
             }
@@ -54,14 +55,11 @@ vector<string> Matrix::textToVectorList(string filename) {
 
 vector<double> Matrix::stringToIntVector(string s) {
     vector<double > v;
-    string::size_type sz;
-    double ints = 0;
 
     string numberOfMultipleNums;
     char* pEnd;
-    for(int i = 0; i < s.length(); i++)
-    {
-        if(s[i] == ' ')
+    for (char i : s) {
+        if(i == ' ')
         {
             if(!numberOfMultipleNums.empty())
             {
@@ -70,7 +68,7 @@ vector<double> Matrix::stringToIntVector(string s) {
                 numberOfMultipleNums = "";
             }
         }else
-            numberOfMultipleNums += s[i];
+            numberOfMultipleNums += i;
     }
     if(!numberOfMultipleNums.empty()){
         v.push_back(atof(numberOfMultipleNums.c_str()));
@@ -116,7 +114,7 @@ void Matrix::print()
 }
 
 string Matrix::toString() {
-    string text = "";
+    string text;
     for(int y = 0; y < ySize; y++){
         for(int x = 0; x < xSize; x++){
         	double valueHere = this->allRows[y][x];
@@ -138,12 +136,12 @@ Matrix::Matrix(string name, int xSize, int ySize) {
     this->xSize = xSize;
     this->ySize = ySize;
 
-    this->name = name;
+    this->name = std::move(name);
     allRows.resize(((unsigned int)(ySize)));
-    for(int i = 0; i < allRows.size(); i++){
+    for (vector<double> row : allRows) {
         std::vector<double > v;
         v.resize((unsigned int)xSize);
-        allRows[i] = v;
+        row = v;
     }
 }
 
