@@ -3,6 +3,9 @@
 #include "Matrix.h"
 #include "fstream"
 #include <vector>
+#include <sstream> //stringstream
+#include <iomanip>//setprecision
+#include "math.h"
 using namespace std;
 
 
@@ -53,25 +56,24 @@ vector<double> Matrix::stringToIntVector(string s) {
     string::size_type sz;
     double ints = 0;
 
+    string numberOfMultipleNums;
+    char* pEnd;
     for(int i = 0; i < s.length(); i++)
     {
-        if(s[i] >= '0' && s[i] <= '9')
+        if(s[i] == ' ')
         {
-            int numberAtIndex = ((s[i] - '0'));
-            if(ints == -1){
-                ints = 0;
-            }
-            ints = (ints * 10) + numberAtIndex;
-        }
-        else
+            if(!numberOfMultipleNums.empty())
             {
-            v.push_back(ints);
-            ints = - 1;
-            continue;
-        }
+                double d = strtod(numberOfMultipleNums.c_str(), &pEnd);
+                v.push_back(d);
+                numberOfMultipleNums = "";
+            }
+        }else
+            numberOfMultipleNums += s[i];
     }
-    if(ints != -1)
-        v.push_back(ints);
+    if(!numberOfMultipleNums.empty()){
+        v.push_back(atof(numberOfMultipleNums.c_str()));
+    }
     return v;
 }
 
@@ -100,8 +102,11 @@ void Matrix::print()
     for(int y = 0; y < ySize; y++){
         for(int x = 0; x < xSize; x++){
             double valueHere = this->allRows[y][x];
-            //cout << valueHere;
             printf("%3.1f ", valueHere);
+            int stringLength = to_string(valueHere).length();
+	        for(int i = stringLength; i < 10; i++){
+		        cout << ' ';
+	        }
             //for(int i =((string)to_string(valueHere)).length(); i < 4; i++)              cout << " ";
         }
         cout << endl;
@@ -113,10 +118,14 @@ string Matrix::toString() {
     string text = "";
     for(int y = 0; y < ySize; y++){
         for(int x = 0; x < xSize; x++){
-            string value = to_string(this->allRows[y][x]);
-            text +=  value;
-            for(int i = value.length(); i < 4; i++){
-                text += ' ';
+        	double valueHere = this->allRows[y][x];
+        	stringstream stringstr;
+	        stringstr << fixed << setprecision(2) << valueHere;
+            text += stringstr.str();
+
+            int stringLength = stringstr.str().length();
+            for(int i = stringLength; i < 10; i++){
+            	text += ' ';
             }
         }
         text += '\n';
@@ -137,7 +146,7 @@ Matrix::Matrix(string name, int xSize, int ySize) {
     }
 }
 
-Matrix * Matrix::multiplyWith(Matrix *M) {
+Matrix * Matrix::multiplyWith(Matrix* M) {
     print();
     cout << "multiplied with: \n" << endl;
     M->print();
@@ -145,7 +154,7 @@ Matrix * Matrix::multiplyWith(Matrix *M) {
         cout << "Forbidden, the size of the Matrices does not fit!" << endl;
         return nullptr;
     }
-    Matrix* multiplicated = new Matrix(this->name + " * " + M->name, getYSize(), M->getXSize());
+    Matrix* multiplicated = new Matrix(this->name + "_x_" + M->name, getYSize(), M->getXSize());
     for(int y = 0; y < multiplicated->getYSize(); y++){
         for(int x = 0; x < multiplicated->getXSize(); x++) {
             int value = 0;
@@ -173,12 +182,16 @@ void Matrix::setValue(int y, int x, int value)
 }
 
 void Matrix::gaussAlgorithm(int row) {
+	if(!triangularForm){
+        name = name + "Triangular";
+        triangularForm = true;
+    }
     if(row == ySize || inDiagonalForm() == -1) return;
     for(int y = row + 1; y < ySize; y++){
 
         double multiplicator = allRows[y][row] / allRows[row][row];
         allRows.at(y).at(row) = 0;
-        cout << multiplicator << endl;
+        //cout << multiplicator << endl;
         for(int x = row + 1; x < xSize; x++){
             allRows.at(y).at(x) = allRows[y][x] - multiplicator * allRows[row][x];
         }

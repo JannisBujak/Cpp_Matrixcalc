@@ -11,22 +11,33 @@ void write(string s){
     writer << s;
     writer.close();
 }
+void write(Matrix* m){
+    ofstream writer;
+    writer.open("../Text/" + m->getName() + ".txt");
+    writer << m->toString();
+    writer.close();
+}
 
 int main() {
 
     Matrix* A = new Matrix("MatrixA");
-    //A->print();
+	//A->print();
+	write(A);
 
-    Matrix* B = new Matrix("MatrixB");
-    //B->print();
-    B->print();
-    B->gaussAlgorithm(0);
-    B->print();
-    printf("%5.1f\n", B->calculateDeterminant());
+	Matrix* B = new Matrix("MatrixB");
+	//B->print();
+	write(B);
 
-    //system("pause");
+	//Matrix* solution = B->multiplyWith(A);
+	//write(solution);
+	//solution->calculateDeterminant();
+	//write(solution);
 
-    delete(A);
+	system("pause");
+
+	write(A);
+	write(B);
+	delete(A);
     delete(B);
     return 0;
 }

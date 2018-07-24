@@ -25,7 +25,7 @@ private:
     void fillRows();
 
 public:
-
+	bool triangularForm;
     explicit Matrix(string name);
     ~Matrix();
     explicit Matrix(string name, int xSize, int ySize);
