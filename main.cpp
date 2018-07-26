@@ -28,12 +28,14 @@ int main() {
 	//B->print();
 	write(B);
 
+	B->gaussAlgorithm(0);
+	B->print();
 	//Matrix* solution = B->multiplyWith(A);
 	//write(solution);
 	//solution->calculateDeterminant();
 	//write(solution);
 
-	system("pause");
+	//system("pause");
 
 	write(A);
 	write(B);

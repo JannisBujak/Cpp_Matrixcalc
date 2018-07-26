@@ -188,6 +188,7 @@ void Matrix::gaussAlgorithm(int row) {
     if(row == ySize || inDiagonalForm() == -1) return;
     for(int y = row + 1; y < ySize; y++){
 
+    	if(allRows[row][row] == 0){ continue;   }
         double multiplicator = allRows[y][row] / allRows[row][row];
         allRows.at(y).at(row) = 0;
         //cout << multiplicator << endl;
