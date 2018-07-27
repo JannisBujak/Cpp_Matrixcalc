@@ -2,6 +2,7 @@
 #include "fstream"
 #include <vector>
 #include "source/Matrix.h"
+#include "source/Vector.h"
 using namespace std;
 
 
@@ -34,6 +35,10 @@ int main() {
 	//write(solution);
 	//solution->calculateDeterminant();
 	//write(solution);
+
+
+	Vector* V = new Vector("V");
+	V->print();
 
 	//system("pause");
 

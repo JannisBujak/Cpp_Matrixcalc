@@ -13,11 +13,14 @@ class Vector {
     
     private:
 	string name;
-    std::vector<int> row;
+    std::vector<double> row;
     int size;
     
     public:
     Vector(string name);
+	void print();
+	
+
 
 	void calcSize();
 };

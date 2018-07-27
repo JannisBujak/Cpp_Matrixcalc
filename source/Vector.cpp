@@ -9,17 +9,24 @@ Vector::Vector(string name) {
 
 	this->name = name;
 	vector<string> columns = Matrix::textToVectorList(name);
-	for(string row : columns)
+	for(string rowEntry : columns)
 	{
-		//vector<double > line = stringToIntVector(row);
-		//this->allRows.push_back(line);
+		if(rowEntry == "")
+			break;
+		char* pEnd;
+		double d = strtod(rowEntry.c_str(), &pEnd);
+		row.push_back(d);
 	}
 	calcSize();
-	//ySize = allRows.size();
-	//xSize = getXSize();
-	//fillRows();
 }
 
 void Vector::calcSize() {
 	size = row.size();
+}
+
+void Vector::print() {
+	cout << "Vector: " << name << " (dim[" << size << "])" << endl;
+	for(double d : row){
+		cout << d << endl;
+	}
 }
