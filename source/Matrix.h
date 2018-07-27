@@ -20,8 +20,7 @@ private:
     void calcSize();
     std::vector < std::vector < double > > allRows;
 
-    vector<string> textToVectorList(string filename);
-    std::vector< double > stringToIntVector(string s);
+	std::vector< double > stringToIntVector(string s);
     void fillRows();
 
 public:
@@ -44,6 +43,7 @@ public:
     string toString();
     Matrix * multiplyWith(Matrix *M);
 
+	static vector<string> textToVectorList(string filename);
 };
 
 

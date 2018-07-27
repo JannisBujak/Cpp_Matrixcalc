@@ -12,10 +12,14 @@ using namespace std;
 class Vector {
     
     private:
+	string name;
     std::vector<int> row;
+    int size;
     
     public:
     Vector(string name);
+
+	void calcSize();
 };
 
 
