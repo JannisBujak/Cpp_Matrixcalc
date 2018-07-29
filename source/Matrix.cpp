@@ -185,7 +185,10 @@ void Matrix::gaussAlgorithm(int row) {
         name = name + "Triangular";
         triangularForm = true;
     }
-    if(row == ySize || inDiagonalForm() == -1) return;
+    if(row == ySize || inDiagonalForm() == -1){
+        cleanUp(allRows.size() - 1);
+        return;
+    }
     for(int y = row + 1; y < ySize; y++){
 
     	if(allRows[row][row] == 0){ continue;   }
@@ -199,6 +202,18 @@ void Matrix::gaussAlgorithm(int row) {
 
     gaussAlgorithm(row + 1);
 
+}
+
+void Matrix::cleanUp(int row) {
+    if(row == 0)
+        return;
+    for(int y = row - 1; y >= 0; y--){
+        double multiplicator = allRows[y][row] / allRows[row][row];
+        for(int x = 0; x < xSize; x++){
+            allRows.at(y).at(x) = allRows[y][x] - multiplicator * allRows[row][x];
+        }
+    }
+    cleanUp(row - 1);
 }
 
 double Matrix::calculateDeterminant() {

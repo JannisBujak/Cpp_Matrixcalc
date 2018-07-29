@@ -32,6 +32,9 @@ int main() {
     Matrix* A = new Matrix("MatrixA");
 	//A->print();
 	writeM(A);
+	A->gaussAlgorithm(0);
+	writeM(A);
+
 
 	Matrix* B = new Matrix("MatrixB");
 	//B->print();

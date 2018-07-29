@@ -30,6 +30,7 @@ public:
     explicit Matrix(string name, int xSize, int ySize);
 
 	void gaussAlgorithm(int row);
+	void cleanUp(int row);
 	double calculateDeterminant();
     void setValue(int y, int x, int value);
     const string &getName() const;
