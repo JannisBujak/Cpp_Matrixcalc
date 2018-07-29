@@ -11,18 +11,27 @@ using namespace std;
 
 class Vector {
     
-    private:
+private:
 	string name;
-    std::vector<double> row;
-    int size;
-    
-    public:
-    Vector(string name);
+
+	std::vector<double> row;
+	int size;
+
+public:
+
+	Vector(string name, int size);
+	Vector(string name);
 	void print();
-	
+
+	Vector* calcScalar(Vector* v);
+
 
 
 	void calcSize();
+
+	void setRow(const vector<double> &row);
+
+	int getSize() const;
 };
 
 

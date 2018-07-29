@@ -38,7 +38,10 @@ int main() {
 
 
 	Vector* V = new Vector("V");
-	V->print();
+	Vector* V2 = new Vector("V2");
+	Vector* scalar = V->calcScalar(V2);
+
+	scalar->print();
 
 	//system("pause");
 

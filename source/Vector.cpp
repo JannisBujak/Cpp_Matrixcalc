@@ -30,3 +30,32 @@ void Vector::print() {
 		cout << d << endl;
 	}
 }
+
+Vector* Vector::calcScalar(Vector* v) {
+	if(size != v->getSize()){
+		return nullptr;
+	}
+	string name = this->name + "x" + v->name + "_scalar";
+	Vector* scalar = new Vector(name, size);
+
+	std::vector<double> vector1;
+
+	for(int i = 0; i < this->size; i++){
+		vector1.push_back(this->row[i] * v->row[i]);
+	}
+	scalar->setRow(vector1);
+	return  scalar;
+}
+
+Vector::Vector(string name, int size) {
+	this->name = name;
+	this->size = size;
+}
+
+int Vector::getSize() const {
+	return size;
+}
+
+void Vector::setRow(const vector<double> &row) {
+	this->row = row;
+}
