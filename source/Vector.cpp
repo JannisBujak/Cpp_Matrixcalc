@@ -4,6 +4,9 @@
 
 #include "Vector.h"
 #include "Matrix.h"
+#include <sstream> //stringstream
+#include <iomanip>//setprecision
+
 
 Vector::Vector(string name) {
 
@@ -65,10 +68,16 @@ const string &Vector::getName() const {
 }
 
 string Vector::toString() {
+
 	string vectorString;
+
 	for(double d : row){
-		vectorString += to_string(d);
-		vectorString += "\n";
+
+		stringstream stringstr;
+		stringstr << fixed << setprecision(2) << d;
+		vectorString += stringstr.str();
+		//vectorString += to_string(d);
+		vectorString += '\n';
 	}
 	return vectorString;
 }
