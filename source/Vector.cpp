@@ -59,3 +59,16 @@ int Vector::getSize() const {
 void Vector::setRow(const vector<double> &row) {
 	this->row = row;
 }
+
+const string &Vector::getName() const {
+	return name;
+}
+
+string Vector::toString() {
+	string vectorString;
+	for(double d : row){
+		vectorString += to_string(d);
+		vectorString += "\n";
+	}
+	return vectorString;
+}

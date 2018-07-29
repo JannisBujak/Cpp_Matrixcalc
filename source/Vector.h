@@ -22,6 +22,7 @@ public:
 	Vector(string name, int size);
 	Vector(string name);
 	void print();
+	string toString();
 
 	Vector* calcScalar(Vector* v);
 
@@ -31,6 +32,7 @@ public:
 
 	void setRow(const vector<double> &row);
 
+	const string &getName() const;
 	int getSize() const;
 };
 

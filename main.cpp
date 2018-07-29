@@ -12,10 +12,18 @@ void write(string s){
     writer << s;
     writer.close();
 }
-void write(Matrix* m){
+void writeM(Matrix* m){
     ofstream writer;
     writer.open("../Text/" + m->getName() + ".txt");
     writer << m->toString();
+    writer.close();
+}
+
+
+void writeV(Vector* v){
+    ofstream writer;
+    writer.open("../Text/" + v->getName() + ".txt");
+    writer << v->toString();
     writer.close();
 }
 
@@ -23,30 +31,35 @@ int main() {
 
     Matrix* A = new Matrix("MatrixA");
 	//A->print();
-	write(A);
+	writeM(A);
 
 	Matrix* B = new Matrix("MatrixB");
 	//B->print();
-	write(B);
+	writeM(B);
 
 	B->gaussAlgorithm(0);
 	B->print();
 	//Matrix* solution = B->multiplyWith(A);
-	//write(solution);
+	//writeM(solution);
 	//solution->calculateDeterminant();
-	//write(solution);
+	//writeM(solution);
 
 
 	Vector* V = new Vector("V");
 	Vector* V2 = new Vector("V2");
 	Vector* scalar = V->calcScalar(V2);
 
-	scalar->print();
+	writeV(scalar);
+
+	if(scalar != nullptr)
+		scalar->print();
+	else
+		cout << "is null";
 
 	//system("pause");
 
-	write(A);
-	write(B);
+	writeM(A);
+	writeM(B);
 	delete(A);
     delete(B);
     return 0;
