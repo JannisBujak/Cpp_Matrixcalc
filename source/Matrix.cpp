@@ -210,7 +210,10 @@ void Matrix::cleanUp(int row) {
     for(int y = row - 1; y >= 0; y--){
         double multiplicator = allRows[y][row] / allRows[row][row];
         for(int x = 0; x < xSize; x++){
-            allRows.at(y).at(x) = allRows[y][x] - multiplicator * allRows[row][x];
+            if(x == row)
+            	allRows.at(y).at(x) = 0;
+            else
+            	allRows.at(y).at(x) = allRows[y][x] - multiplicator * allRows[row][x];
         }
     }
     cleanUp(row - 1);
