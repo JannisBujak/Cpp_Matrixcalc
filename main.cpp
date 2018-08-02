@@ -35,7 +35,6 @@ int main() {
 	A->gaussAlgorithm(0, false);
 	writeM(A);
 
-
 	Matrix* B = new Matrix("MatrixB");
 	B->print();
 	writeM(B);
@@ -43,11 +42,13 @@ int main() {
 	B->gaussAlgorithm(0, false);
 	B->print();
 
-	//Matrix* solution = B->multiplyWith(A);
-	//writeM(solution);
-	//solution->calculateDeterminant();
-	//writeM(solution);
-
+	/**Matrix Multiplication*/
+	Matrix* solution = B->multiplyWith(A);
+	if(solution != nullptr) {
+		writeM(solution);
+		solution->calculateDeterminant();
+		writeM(solution);
+	}
 
 	Vector* V = new Vector("V");
 	Vector* V2 = new Vector("V2");

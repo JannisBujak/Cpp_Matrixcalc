@@ -2,7 +2,7 @@
 
 #include "Matrix.h"
 #include "fstream"
-#include "math.h"
+#include "cmath"
 #include <utility>
 #include <vector>
 #include <sstream> //stringstream
@@ -168,7 +168,9 @@ Matrix * Matrix::multiplyWith(Matrix* M) {
     return multiplicated;
 }
 
-const string &Matrix::getName() const { return name;    }
+const string &Matrix::getName() const {
+	return name;
+}
 
 int Matrix::getXSize() {
     return xSize;
