@@ -6,7 +6,6 @@
 
 using namespace std;
 
-
 void write(string s){
     ofstream writer;
     writer.open("../Text/MatrixSolution.txt");
@@ -33,7 +32,7 @@ int main() {
     Matrix* A = new Matrix("MatrixA");
 	//A->print();
 	writeM(A);
-	A->gaussAlgorithm(0);
+	A->gaussAlgorithm(0, true);
 	writeM(A);
 
 
@@ -41,8 +40,9 @@ int main() {
 	//B->print();
 	writeM(B);
 
-	B->gaussAlgorithm(0);
-	B->print();
+	//B->gaussAlgorithm(0, true);
+	//B->print();
+
 	//Matrix* solution = B->multiplyWith(A);
 	//writeM(solution);
 	//solution->calculateDeterminant();
@@ -51,20 +51,20 @@ int main() {
 
 	Vector* V = new Vector("V");
 	Vector* V2 = new Vector("V2");
-	Vector* scalar = V->calcScalar(V2);
 
-	writeV(scalar);
+	Vector* orthogonalVxV2 = V->orthogonalVector(V2);
+	if(orthogonalVxV2 == nullptr) {
 
-	if(scalar != nullptr)
-		scalar->print();
-	else
-		cout << "is null";
+		orthogonalVxV2->print();
+
+		cout << V->calcScalar(orthogonalVxV2) << endl;
+		cout << V2->calcScalar(orthogonalVxV2) << endl;
+
+		writeV(orthogonalVxV2);
+	}
 
 	//system("pause");
 
 	writeM(A);
 	writeM(B);
-	delete(A);
-    delete(B);
-    return 0;
 }

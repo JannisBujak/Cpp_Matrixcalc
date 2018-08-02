@@ -180,13 +180,16 @@ void Matrix::setValue(int y, int x, int value)
     (allRows.at(y)).at(x) = value;
 }
 
-void Matrix::gaussAlgorithm(int row) {
-	if(!triangularForm){
+void Matrix::gaussAlgorithm(int row, bool shallTrack)
+{
+    if(shallTrack)
+        print();
+    if(!triangularForm){
         name = name + "Triangular";
         triangularForm = true;
     }
     if(row == ySize || inDiagonalForm() == -1){
-        cleanUp(allRows.size() - 1);
+        cleanUp(allRows.size() - 1, shallTrack);
         return;
     }
     for(int y = row + 1; y < ySize; y++){
@@ -200,11 +203,13 @@ void Matrix::gaussAlgorithm(int row) {
         }
     }
 
-    gaussAlgorithm(row + 1);
+    gaussAlgorithm(row + 1, shallTrack);
 
 }
 
-void Matrix::cleanUp(int row) {
+void Matrix::cleanUp(int row, bool shallTrack) {
+    if(shallTrack)
+    	print();
     if(row == 0)
         return;
     for(int y = row - 1; y >= 0; y--){
@@ -216,7 +221,7 @@ void Matrix::cleanUp(int row) {
             	allRows.at(y).at(x) = allRows[y][x] - multiplicator * allRows[row][x];
         }
     }
-    cleanUp(row - 1);
+    cleanUp(row - 1, shallTrack);
 }
 
 double Matrix::calculateDeterminant() {
@@ -225,7 +230,7 @@ double Matrix::calculateDeterminant() {
         return -1;
     }
     if(!inDiagonalForm())
-        gaussAlgorithm(0);
+        gaussAlgorithm(0, false);
     double determinant = 1;
     for(int i = 0; i < xSize; i++){
         determinant *= allRows[i][i];

@@ -21,10 +21,12 @@ public:
 
 	Vector(string name, int size);
 	Vector(string name);
+
+	Vector* orthogonalVector(Vector* otherVector);
 	void print();
 	string toString();
 
-	Vector* calcScalar(Vector* v);
+	double calcScalar(Vector* v);
 
 
 

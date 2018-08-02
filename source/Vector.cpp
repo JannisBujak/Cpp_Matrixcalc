@@ -34,20 +34,31 @@ void Vector::print() {
 	}
 }
 
-Vector* Vector::calcScalar(Vector* v) {
-	if(size != v->getSize()){
+Vector* Vector::orthogonalVector(Vector* otherVector) {
+	if(size != otherVector->getSize() != 3){
 		return nullptr;
 	}
-	string name = this->name + "x" + v->name + "_scalar";
-	Vector* scalar = new Vector(name, size);
+	string myName = "cross_product_" + this->name + "x" + otherVector->getName();
+	Vector* v = new Vector(myName, size);
 
-	std::vector<double> vector1;
+	std::vector<double> vVector;
 
-	for(int i = 0; i < this->size; i++){
-		vector1.push_back(this->row[i] * v->row[i]);
+	for(int i = 0; i < size; i++){
+		vVector.push_back((this->row[(i + 1) % size] * otherVector->row[(i + 2) % size]) - (this->row[(i + 2) % size] * otherVector->row[(i + 1) % size]));
 	}
-	scalar->setRow(vector1);
-	return  scalar;
+	v->setRow(vVector);
+	return v;
+}
+
+double Vector::calcScalar(Vector* v) {
+	if(size != v->getSize()){
+		return 0;
+	}
+	double sum = 0;
+	for(int i = 0; i < this->size; i++){
+		sum += (this->row[i] * v->row[i]);
+	}
+	return  sum;
 }
 
 Vector::Vector(string name, int size) {
