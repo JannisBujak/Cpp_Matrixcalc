@@ -2,6 +2,7 @@
 
 #include "Matrix.h"
 #include "fstream"
+#include "math.h"
 #include <utility>
 #include <vector>
 #include <sstream> //stringstream
@@ -182,22 +183,22 @@ void Matrix::setValue(int y, int x, int value)
 
 void Matrix::gaussAlgorithm(int row, bool shallTrack)
 {
-    if(shallTrack)
-        print();
     if(!triangularForm){
-        name = name + "Triangular";
-        triangularForm = true;
+	    name = name + "Triangular";
+	    triangularForm = true;
     }
-    if(row == ySize || inDiagonalForm() == -1){
-        cleanUp(allRows.size() - 1, shallTrack);
-        return;
-    }
-    for(int y = row + 1; y < ySize; y++){
+	if(row == ySize || inDiagonalForm()){
+		cleanUp(min(xSize, ySize) - 1, shallTrack);
+		return;
+	}
+	if(shallTrack && allRows[row][row] != 0)
+		print();
+	for(int y = row + 1; y < ySize; y++){
 
-    	if(allRows[row][row] == 0){ continue;   }
+    	if(allRows[row][row] == 0)
+    		continue;
         double multiplicator = allRows[y][row] / allRows[row][row];
         allRows.at(y).at(row) = 0;
-        //cout << multiplicator << endl;
         for(int x = row + 1; x < xSize; x++){
             allRows.at(y).at(x) = allRows[y][x] - multiplicator * allRows[row][x];
         }
@@ -208,11 +209,11 @@ void Matrix::gaussAlgorithm(int row, bool shallTrack)
 }
 
 void Matrix::cleanUp(int row, bool shallTrack) {
-    if(shallTrack)
-    	print();
-    if(row == 0)
-        return;
-    for(int y = row - 1; y >= 0; y--){
+    if(shallTrack)  print();
+    if(row == 0)    return;
+
+    for(int y = row - 1; y >= 0; y--)
+    {
         double multiplicator = allRows[y][row] / allRows[row][row];
         for(int x = 0; x < xSize; x++){
             if(x == row)

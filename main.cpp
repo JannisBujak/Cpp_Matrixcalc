@@ -32,16 +32,16 @@ int main() {
     Matrix* A = new Matrix("MatrixA");
 	//A->print();
 	writeM(A);
-	A->gaussAlgorithm(0, true);
+	A->gaussAlgorithm(0, false);
 	writeM(A);
 
 
 	Matrix* B = new Matrix("MatrixB");
-	//B->print();
+	B->print();
 	writeM(B);
 
-	//B->gaussAlgorithm(0, true);
-	//B->print();
+	B->gaussAlgorithm(0, false);
+	B->print();
 
 	//Matrix* solution = B->multiplyWith(A);
 	//writeM(solution);
@@ -53,7 +53,7 @@ int main() {
 	Vector* V2 = new Vector("V2");
 
 	Vector* orthogonalVxV2 = V->orthogonalVector(V2);
-	if(orthogonalVxV2 == nullptr) {
+	if(orthogonalVxV2 != nullptr) {
 
 		orthogonalVxV2->print();
 
