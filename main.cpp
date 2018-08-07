@@ -32,17 +32,20 @@ int main() {
     Matrix* A = new Matrix("MatrixA");
 	//A->print();
 	writeM(A);
-	A->gaussAlgorithm(0, false);
-	writeM(A);
 
 	Matrix* B = new Matrix("MatrixB");
-	B->print();
+	//B->print();
 	writeM(B);
 
+	Vector* V = new Vector("V");
+	Vector* V2 = new Vector("V2");
+
+	/*
 	B->gaussAlgorithm(0, false);
 	B->print();
 
-	/**Matrix Multiplication*/
+
+
 	Matrix* solution = B->multiplyWith(A);
 	if(solution != nullptr) {
 		writeM(solution);
@@ -50,8 +53,6 @@ int main() {
 		writeM(solution);
 	}
 
-	Vector* V = new Vector("V");
-	Vector* V2 = new Vector("V2");
 
 	Vector* orthogonalVxV2 = V->orthogonalVector(V2);
 	if(orthogonalVxV2 != nullptr) {
@@ -63,7 +64,9 @@ int main() {
 
 		writeV(orthogonalVxV2);
 	}
+	*/
 
+	A->solveAndPrintSystem(false, V);
 	//system("pause");
 
 	writeM(A);

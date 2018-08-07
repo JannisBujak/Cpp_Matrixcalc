@@ -3,15 +3,37 @@
 //
 
 #include "Vector.h"
-#include "Matrix.h"
+#include "fstream"
 #include <sstream> //stringstream
 #include <iomanip>//setprecision
 
 
+vector<string> Vector::textToVectorList(string filename) {
+	{
+		string file = "../Text/" + filename + ".txt";
+		//Most important values
+		ifstream reader;    reader.open(file);  vector<string> text;    string line;
+		if(reader.is_open())
+		{
+			while(reader.good())
+			{
+				getline(reader, line);
+				if(line.empty())
+					break;
+				text.push_back(line);
+			}
+			reader.close();
+		}else{
+			cout << "Unable to open file " + file << endl;
+		}
+		return text;
+	}
+}
+
 Vector::Vector(string name) {
 
 	this->name = name;
-	vector<string> columns = Matrix::textToVectorList(name);
+	vector<string> columns = textToVectorList(name);
 	for(string rowEntry : columns)
 	{
 		if(rowEntry == "")
@@ -91,4 +113,24 @@ string Vector::toString() {
 		vectorString += '\n';
 	}
 	return vectorString;
+}
+
+void Vector::setRowAtPosition(int position, double value) {
+	row[position] = value;
+}
+
+void Vector::addValueToRow(double value) {
+	row.push_back(value);
+}
+
+const vector<double> &Vector::getRow() const {
+	return row;
+}
+
+Vector *Vector::copy() {
+	Vector* vCopy = new Vector(name + "_copy", getSize());
+	for(int i = 0; i < getSize(); i++){
+		vCopy->addValueToRow(row[i]);
+	}
+	return vCopy;
 }

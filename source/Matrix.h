@@ -6,6 +6,7 @@
 #define TESTS_MATRIX_H
 
 #include <iostream>
+#include "Vector.h"
 #include <vector>
 
 using namespace std;
@@ -28,11 +29,17 @@ public:
     explicit Matrix(string name);
     ~Matrix();
     explicit Matrix(string name, int xSize, int ySize);
+	Matrix* copy();
 
+	void solveAndPrintSystem(bool shallTrack, Vector *v);
+	void gaussAlgorithm(int row, bool shallTrack, Vector* v);
 	void gaussAlgorithm(int row, bool shallTrack);
+
 	void cleanUp(int row, bool shallTrack);
+	void cleanUp(int row, bool shallTrack, Vector* v);
 	double calculateDeterminant();
-    void setValue(int y, int x, int value);
+    void setValue(int y, int x, double value);
+    void addValueToRow(int row, double value);
     const string &getName() const;
 
     int getXSize();
@@ -41,6 +48,7 @@ public:
 	bool inDiagonalForm();
 
     void print();
+    void print(Vector* v);
     string toString();
     Matrix * multiplyWith(Matrix *M);
 

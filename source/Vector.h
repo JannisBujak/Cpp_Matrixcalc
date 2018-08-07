@@ -18,9 +18,11 @@ private:
 	int size;
 
 public:
+	vector<string> textToVectorList(string filename);
 
 	Vector(string name, int size);
 	Vector(string name);
+	Vector* copy();
 
 	Vector* orthogonalVector(Vector* otherVector);
 	void print();
@@ -33,6 +35,10 @@ public:
 	void calcSize();
 
 	void setRow(const vector<double> &row);
+	void setRowAtPosition(int position, double value);
+	void addValueToRow(double value);
+
+	const vector<double> &getRow() const;
 
 	const string &getName() const;
 	int getSize() const;

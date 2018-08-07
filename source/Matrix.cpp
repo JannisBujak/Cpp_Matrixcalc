@@ -1,6 +1,7 @@
 //
 
 #include "Matrix.h"
+#include "Vector.h"
 #include "fstream"
 #include "cmath"
 #include <utility>
@@ -114,6 +115,31 @@ void Matrix::print()
     cout << endl;
 }
 
+void Matrix::print(Vector *v) {
+	this->calcSize();
+	cout << name << " (" << xSize << "x" << ySize << "):" << endl;
+	for(int y = 0; y < ySize; y++){
+		for(int x = 0; x < xSize; x++){
+			double valueHere = this->allRows[y][x];
+			printf("%3.1f ", valueHere);
+			int stringLength = to_string(valueHere).length();
+			for(int i = stringLength; i < 10; i++){
+				cout << ' ';
+			}
+		}
+		cout << '|';    for(int i = 0; i < 5; i++)  cout << ' ';
+
+		double valueHere = v->getRow()[y];
+		printf("%3.1f ", valueHere);
+		int stringLength = to_string(valueHere).length();
+		for(int i = stringLength; i < 10; i++){
+			cout << ' ';
+		}
+		cout << endl;
+	}
+	cout << endl;
+}
+
 string Matrix::toString() {
     string text;
     for(int y = 0; y < ySize; y++){
@@ -168,6 +194,17 @@ Matrix * Matrix::multiplyWith(Matrix* M) {
     return multiplicated;
 }
 
+
+Matrix *Matrix::copy() {
+	Matrix* mCopy = new Matrix(name + "_copy", xSize, ySize);
+	for(int y = 0; y < ySize; y++){
+		for(int x = 0; x < xSize; x++) {
+			mCopy->addValueToRow(y, allRows[y][x]);
+		}
+	}
+	return  mCopy;
+}
+
 const string &Matrix::getName() const {
 	return name;
 }
@@ -178,7 +215,7 @@ int Matrix::getXSize() {
 
 int Matrix::getYSize() const {  return ySize;   }
 
-void Matrix::setValue(int y, int x, int value)
+void Matrix::setValue(int y, int x, double value)
 {
     (allRows.at(y)).at(x) = value;
 }
@@ -210,6 +247,38 @@ void Matrix::gaussAlgorithm(int row, bool shallTrack)
 
 }
 
+void  Matrix::gaussAlgorithm(int row, bool shallTrack, Vector* v)
+{
+	if(!triangularForm){
+		if(v->getSize() != this->ySize)
+			return;
+		name = name + "Triangular";
+		triangularForm = true;
+	}
+
+	if(row == ySize || inDiagonalForm()){
+		//break
+		cleanUp(min(xSize, ySize) - 1, shallTrack, v);
+		return;
+	}
+	if(shallTrack && allRows[row][row] != 0)
+		print(v);
+	for(int y = row + 1; y < ySize; y++){
+
+		if(allRows[row][row] == 0)
+			continue;
+		double multiplicator = allRows[y][row] / allRows[row][row];
+		allRows.at(y).at(row) = 0;
+		for(int x = row + 1; x < xSize; x++){
+			allRows.at(y).at(x) = allRows[y][x] - multiplicator * allRows[row][x];
+		}
+		v->setRowAtPosition(y, v->getRow()[y] - multiplicator * (v->getRow())[row]);
+	}
+
+	gaussAlgorithm(row + 1, shallTrack, v); //recursion
+	return;
+}
+
 void Matrix::cleanUp(int row, bool shallTrack) {
     if(shallTrack)  print();
     if(row == 0)    return;
@@ -225,6 +294,24 @@ void Matrix::cleanUp(int row, bool shallTrack) {
         }
     }
     cleanUp(row - 1, shallTrack);
+}
+
+void Matrix::cleanUp(int row, bool shallTrack, Vector* v) {
+	if(shallTrack)  print(v);
+	if(row == 0)    return;
+
+	for(int y = row - 1; y >= 0; y--)
+	{
+		double multiplicator = allRows[y][row] / allRows[row][row];
+		for(int x = 0; x < xSize; x++){
+			if(x == row)
+				allRows.at(y).at(x) = 0;
+			else
+				allRows.at(y).at(x) = allRows[y][x] - multiplicator * allRows[row][x];
+		}
+		v->setRowAtPosition(y, v->getRow()[y] - multiplicator * (v->getRow())[row]);
+	}
+	cleanUp(row - 1, shallTrack, v);
 }
 
 double Matrix::calculateDeterminant() {
@@ -249,6 +336,20 @@ bool Matrix::inDiagonalForm() {
         }
     }
     return true;
+}
+
+void Matrix::addValueToRow(int row, double value){
+	allRows[row].push_back(value);
+}
+
+void Matrix::solveAndPrintSystem(bool shallTrack, Vector *v) {
+	if(getYSize() != v->getSize())
+		return;
+	Matrix* mCopy = copy();
+	Vector* vCopy = v->copy();
+	mCopy->gaussAlgorithm(0, shallTrack, vCopy);
+	if(!shallTrack)
+		mCopy->print(vCopy);
 }
 
 Matrix::~Matrix() = default;
